@@ -1,3 +1,8 @@
 spring:
   application:
     name: security-sample
+
+logging:
+  level:
+    root: warn
+    org.springframework.security: debug

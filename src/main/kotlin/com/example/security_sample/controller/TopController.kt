@@ -13,4 +13,10 @@ class TopController {
         model.addAttribute("name", "akira")
         return "index"
     }
+
+    @GetMapping("/private")
+    fun getPrivatePage(model: Model): String {
+        model.addAttribute("name", "alice")
+        return "index"
+    }
 }
