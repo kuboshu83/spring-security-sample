@@ -1,0 +1,23 @@
+package com.example.security_sample.auth
+
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
+
+class PostgreSqlUserDetailsService(
+    private val repository: AuthUserRepository
+) : UserDetailsService {
+    override fun loadUserByUsername(username: String): UserDetails {
+        val user = repository.findByName(username)
+            ?: throw UsernameNotFoundException("ユーザが見つかりません: name=$username")
+        val authorities = listOf<GrantedAuthority>(
+            SimpleGrantedAuthority(user.authority)
+        )
+        return User(
+            user.name, user.password, authorities
+        )
+    }
+}

@@ -1,0 +1,46 @@
+package com.example.security_sample.auth
+
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import java.time.OffsetDateTime
+import java.util.*
+
+@Service
+class AuthUserService(
+    private val repo: AuthUserRepository,
+    private val encoder: PasswordEncoder,
+) {
+    @Transactional
+    fun createAdmin(name: String, rawPassword: String): AuthUser {
+        return createUser(name, rawPassword, Role.ADMIN_ROLE)
+    }
+
+    @Transactional
+    fun createGeneralUser(name: String, rawPassword: String): AuthUser {
+        return createUser(name, rawPassword, Role.USER_ROLE)
+    }
+
+    @Transactional
+    fun createDeveloper(name: String, rawPassword: String): AuthUser {
+        return createUser(name, rawPassword, Role.DEVELOPER_ROLE)
+    }
+
+    fun createUser(name: String, rawPassword: String, role: Role): AuthUser {
+        val id = UUID.randomUUID().toString()
+        val encodedPassword = encoder.encode(rawPassword) ?: throw RuntimeException("パスワードのエンコード失敗")
+        val authUser = AuthUser(id, name, role.toString(), encodedPassword, OffsetDateTime.now())
+        repo.save(authUser)
+        return authUser
+    }
+
+    fun deleteUser(id: String): AuthUser {
+        val user = repo.findById(id) ?: throw RuntimeException("ユーザが見つかりません: id=$id")
+        repo.delete(id)
+        return user
+    }
+
+    fun findUserById(id: String): AuthUser {
+        return repo.findById(id) ?: throw RuntimeException("ユーザが見つかりません: id=$id")
+    }
+}

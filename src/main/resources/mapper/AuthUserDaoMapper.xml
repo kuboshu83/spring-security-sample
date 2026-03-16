@@ -17,4 +17,10 @@
         id, name, authority, password, enabled, created_at
         from auth.user where id = #{id}
     </select>
+
+    <select id="findByName" resultType="com.example.security_sample.infrastructure.AuthUserRecord">
+        select
+        id, name, authority, password, enabled, created_at
+        from auth.user where name = #{name}
+    </select>
 </mapper>

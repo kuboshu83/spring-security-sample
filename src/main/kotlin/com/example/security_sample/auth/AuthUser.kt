@@ -9,3 +9,9 @@ data class AuthUser(
     val password: String,
     val createdAt: OffsetDateTime,
 )
+
+enum class Role {
+    ADMIN_ROLE,
+    USER_ROLE,
+    DEVELOPER_ROLE,
+}
