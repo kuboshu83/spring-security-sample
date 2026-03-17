@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.security_sample.infrastructure.AuthUserDao">
+    <insert id="create">
+        insert into auth.user
+        (id, name, authority, password, enabled, created_at)
+        values
+        (#{user.id}, #{user.name}, #{user.authority}, #{user.password}, #{user.enabled}, #{user.createdAt})
+    </insert>
+
+    <delete id="delete">
+        delete from auth.user where id = #{id}
+    </delete>
+
+    <select id="findById" resultType="com.example.security_sample.infrastructure.AuthUserRecord">
+        select
+        id, name, authority, password, enabled, created_at
+        from auth.user where id = #{id}
+    </select>
+
+    <select id="findByName" resultType="com.example.security_sample.infrastructure.AuthUserRecord">
+        select
+        id, name, authority, password, enabled, created_at
+        from auth.user where name = #{name}
+    </select>
+</mapper>

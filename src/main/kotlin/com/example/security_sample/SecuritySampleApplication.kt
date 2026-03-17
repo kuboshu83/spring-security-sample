@@ -7,5 +7,14 @@ import org.springframework.boot.runApplication
 class SecuritySampleApplication
 
 fun main(args: Array<String>) {
-	runApplication<SecuritySampleApplication>(*args)
+    runApplication<SecuritySampleApplication>(*args)
+//    val context = runApplication<SecuritySampleApplication>(*args)
+//    val repo = context.getBean("authUserRepository") as AuthUserRepository
+//    val user = AuthUser(
+//        "akira_id", "akira", "root", "akira-pass", OffsetDateTime.now()
+//    )
+//    repo.save(user)
+//    println(repo.findById("akira_id"))
+//    repo.delete("akira_id")
+//    println(repo.findById("akira_id"))
 }
