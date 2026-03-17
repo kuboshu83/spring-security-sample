@@ -12,6 +12,6 @@ data class AuthUser(
 
 enum class Role {
     ADMIN_ROLE,
-    USER_ROLE,
+    GENERAL_ROLE,
     DEVELOPER_ROLE,
 }

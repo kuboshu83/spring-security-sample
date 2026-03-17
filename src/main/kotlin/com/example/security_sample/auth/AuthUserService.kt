@@ -18,7 +18,7 @@ class AuthUserService(
 
     @Transactional
     fun createGeneralUser(name: String, rawPassword: String): AuthUser {
-        return createUser(name, rawPassword, Role.USER_ROLE)
+        return createUser(name, rawPassword, Role.GENERAL_ROLE)
     }
 
     @Transactional
