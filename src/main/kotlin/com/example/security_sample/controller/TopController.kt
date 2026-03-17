@@ -11,12 +11,30 @@ class TopController {
     @GetMapping
     fun getTopPage(model: Model): String {
         model.addAttribute("name", "akira")
-        return "index"
+        return "public/public_index"
+    }
+}
+
+@RequestMapping("/private")
+@Controller
+class PrivateController {
+    @GetMapping
+    fun getPrivatePage(): String {
+        return "private/private_index"
     }
 
-    @GetMapping("/private")
-    fun getPrivatePage(model: Model): String {
-        model.addAttribute("name", "alice")
-        return "index"
+    @GetMapping("/admin")
+    fun getAdminPage(): String {
+        return "private/admin/admin_index"
+    }
+
+    @GetMapping("/developer")
+    fun getDeveloperPage(): String {
+        return "private/developer/developer_index"
+    }
+
+    @GetMapping("/general")
+    fun getGeneralPage(): String {
+        return "private/general/general_user_index"
     }
 }
