@@ -1,7 +1,7 @@
 package com.example.security_sample.controller
 
 import com.example.security_sample.auth.AuthUserService
-import com.example.security_sample.auth.Role
+import com.example.security_sample.auth.domain.AuthUserRole
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
@@ -21,10 +21,10 @@ class ApiAuthController(
         @RequestBody user: NewUserDTO,
     ) {
         println("${user.name}, ${user.password}, ${user.role}")
-        val role: Role = when (user.role) {
-            "general" -> Role.GENERAL_ROLE
-            "developer" -> Role.DEVELOPER_ROLE
-            "admin" -> Role.ADMIN_ROLE
+        val role: AuthUserRole = when (user.role) {
+            "general" -> AuthUserRole.GENERAL
+            "developer" -> AuthUserRole.DEVELOPER
+            "admin" -> AuthUserRole.ADMIN
             else -> throw RuntimeException("不明なロール: ${user.role}")
         }
         service.createUser(user.name, user.password, role)
@@ -41,10 +41,10 @@ class AuthController(
         @ModelAttribute user: NewUserDTO,
     ): String {
         println("${user.name}, ${user.password}, ${user.role}")
-        val role: Role = when (user.role) {
-            "general" -> Role.GENERAL_ROLE
-            "developer" -> Role.DEVELOPER_ROLE
-            "admin" -> Role.ADMIN_ROLE
+        val role: AuthUserRole = when (user.role) {
+            "general" -> AuthUserRole.GENERAL
+            "developer" -> AuthUserRole.DEVELOPER
+            "admin" -> AuthUserRole.ADMIN
             else -> throw RuntimeException("不明なロール: ${user.role}")
         }
         service.createUser(user.name, user.password, role)

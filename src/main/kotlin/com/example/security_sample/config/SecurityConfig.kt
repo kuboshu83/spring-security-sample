@@ -1,7 +1,7 @@
 package com.example.security_sample.config
 
-import com.example.security_sample.auth.AuthUserRepository
 import com.example.security_sample.auth.PostgreSqlUserDetailsService
+import com.example.security_sample.auth.domain.AuthUserRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -20,9 +20,9 @@ class SecurityConfig {
         http {
             csrf { }
             authorizeHttpRequests {
-                authorize("/private/admin/**", hasAuthority("ADMIN_ROLE"))
-                authorize("/private/developer/**", hasAuthority("DEVELOPER_ROLE"))
-                authorize("/private/general/**", hasAuthority("GENERAL_ROLE"))
+                authorize("/private/admin/**", hasAuthority("ADMIN"))
+                authorize("/private/developer/**", hasAuthority("DEVELOPER"))
+                authorize("/private/general/**", hasAuthority("GENERAL"))
                 authorize("/private/**", authenticated)
                 authorize(anyRequest, permitAll)
             }

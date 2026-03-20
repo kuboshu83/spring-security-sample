@@ -1,5 +1,8 @@
 package com.example.security_sample.auth
 
+import com.example.security_sample.auth.domain.AuthUser
+import com.example.security_sample.auth.domain.AuthUserRepository
+import com.example.security_sample.auth.domain.AuthUserRole
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,23 +16,23 @@ class AuthUserService(
 ) {
     @Transactional
     fun createAdmin(name: String, rawPassword: String): AuthUser {
-        return createUser(name, rawPassword, Role.ADMIN_ROLE)
+        return createUser(name, rawPassword, AuthUserRole.ADMIN)
     }
 
     @Transactional
     fun createGeneralUser(name: String, rawPassword: String): AuthUser {
-        return createUser(name, rawPassword, Role.GENERAL_ROLE)
+        return createUser(name, rawPassword, AuthUserRole.GENERAL)
     }
 
     @Transactional
     fun createDeveloper(name: String, rawPassword: String): AuthUser {
-        return createUser(name, rawPassword, Role.DEVELOPER_ROLE)
+        return createUser(name, rawPassword, AuthUserRole.DEVELOPER)
     }
 
-    fun createUser(name: String, rawPassword: String, role: Role): AuthUser {
+    fun createUser(name: String, rawPassword: String, role: AuthUserRole): AuthUser {
         val id = UUID.randomUUID().toString()
         val encodedPassword = encoder.encode(rawPassword) ?: throw RuntimeException("パスワードのエンコード失敗")
-        val authUser = AuthUser(id, name, role.toString(), encodedPassword, true, OffsetDateTime.now())
+        val authUser = AuthUser(id, name, role, encodedPassword, true, OffsetDateTime.now())
         repo.save(authUser)
         return authUser
     }

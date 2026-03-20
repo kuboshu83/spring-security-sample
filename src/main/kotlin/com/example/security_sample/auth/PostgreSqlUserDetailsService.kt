@@ -1,5 +1,6 @@
 package com.example.security_sample.auth
 
+import com.example.security_sample.auth.domain.AuthUserRepository
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
@@ -23,7 +24,7 @@ class PostgreSqlUserDetailsService(
         val user = repository.findByName(username)
             ?: throw UsernameNotFoundException("ユーザが見つかりません: name=$username")
         val authorities = listOf<GrantedAuthority>(
-            SimpleGrantedAuthority(user.role)
+            SimpleGrantedAuthority(user.role.code)
         )
         return CustomUserDetails(
             user.id, user.name, user.password, authorities
