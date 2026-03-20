@@ -1,4 +1,4 @@
-package com.example.security_sample.controller
+package com.example.security_sample.controller.private
 
 import com.example.security_sample.auth.AuthUserService
 import com.example.security_sample.auth.Role
