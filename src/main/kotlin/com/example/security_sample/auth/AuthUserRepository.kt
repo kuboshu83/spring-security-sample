@@ -5,4 +5,5 @@ interface AuthUserRepository {
     fun findById(userId: String): AuthUser?
     fun delete(userId: String)
     fun findByName(name: String): AuthUser?
+    fun findAllUser(): List<AuthUser>
 }

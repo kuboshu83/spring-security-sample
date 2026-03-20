@@ -18,7 +18,7 @@ class AuthUserService(
 
     @Transactional
     fun createGeneralUser(name: String, rawPassword: String): AuthUser {
-        return createUser(name, rawPassword, Role.USER_ROLE)
+        return createUser(name, rawPassword, Role.GENERAL_ROLE)
     }
 
     @Transactional
@@ -29,7 +29,7 @@ class AuthUserService(
     fun createUser(name: String, rawPassword: String, role: Role): AuthUser {
         val id = UUID.randomUUID().toString()
         val encodedPassword = encoder.encode(rawPassword) ?: throw RuntimeException("パスワードのエンコード失敗")
-        val authUser = AuthUser(id, name, role.toString(), encodedPassword, OffsetDateTime.now())
+        val authUser = AuthUser(id, name, role.toString(), encodedPassword, true, OffsetDateTime.now())
         repo.save(authUser)
         return authUser
     }
@@ -42,5 +42,13 @@ class AuthUserService(
 
     fun findUserById(id: String): AuthUser {
         return repo.findById(id) ?: throw RuntimeException("ユーザが見つかりません: id=$id")
+    }
+
+    fun findAllUser(): List<AuthUser> {
+        val users = repo.findAllUser()
+        if (users.isEmpty()) {
+            throw RuntimeException("ユーザが見つかりません")
+        }
+        return users;
     }
 }

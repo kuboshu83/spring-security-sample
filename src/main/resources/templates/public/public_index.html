@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>一般公開用ページ</title>
+</head>
+<body>
+<h1>一般公開用ページ</h1>
+
+<h2>ユーザー登録</h2>
+<form method="post" th:action="@{/auth/new}" th:object="${newUserDTO}">
+    <label for="name">ユーザ名</label>
+    <input type="text" id="name" name="name">
+
+    <label for="password">パスワード</label>
+    <input type="text" id="password" name="password">
+
+    <label for="role">ロール</label>
+    <select id="role" name="role">
+        <option value="general">一般ユーザ</option>
+        <option value="developer">開発者</option>
+        <option value="admin">管理者</option>
+    </select>
+    <button type="submit">登録</button>
+</form>
+
+</body>
+</html>

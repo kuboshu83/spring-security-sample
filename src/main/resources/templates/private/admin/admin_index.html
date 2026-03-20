@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理者用ページ</title>
+</head>
+<body>
+<h1>管理者用ページ</h1>
+
+<h2>ユーザ管理</h2>
+
+<table>
+    <tr>
+        <th>ユーザ名</th>
+        <th>ロール</th>
+        <th>有効/無効</th>
+    </tr>
+    <tr th:each="user: ${users}">
+        <td th:text="${user.name}">user name</td>
+        <td th:switch="${user.role}">
+            <span th:case="ADMIN_ROLE">管理者</span>
+            <span th:case="DEVELOPER_ROLE">開発者</span>
+            <span th:case="GENERAL_ROLE">ユーザ</span>
+            <span th:case="*">不明</span>
+        </td>
+        <td th:switch="${user.enable}">
+            <span th:case="true">有効</span>
+            <span th:case="false">無効</span>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

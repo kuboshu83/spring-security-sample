@@ -5,13 +5,14 @@ import java.time.OffsetDateTime
 data class AuthUser(
     val id: String,
     val name: String,
-    val authority: String,
+    val role: String,
     val password: String,
+    val enable: Boolean,
     val createdAt: OffsetDateTime,
 )
 
 enum class Role {
     ADMIN_ROLE,
-    USER_ROLE,
+    GENERAL_ROLE,
     DEVELOPER_ROLE,
 }
