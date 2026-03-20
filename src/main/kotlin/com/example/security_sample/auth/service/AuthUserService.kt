@@ -1,4 +1,4 @@
-package com.example.security_sample.auth
+package com.example.security_sample.auth.service
 
 import com.example.security_sample.auth.domain.AuthUser
 import com.example.security_sample.auth.domain.AuthUserRepository
