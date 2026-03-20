@@ -14,7 +14,7 @@ class AuthUserRepositoryImpl(
     override fun save(user: AuthUser) {
         dao.create(
             AuthUserRecord(
-                user.id, user.name, user.authority, user.password, true, user.createdAt
+                user.id, user.name, user.role, user.password, true, user.createdAt
             )
         )
     }
@@ -26,7 +26,7 @@ class AuthUserRepositoryImpl(
     override fun findById(userId: String): AuthUser? {
         return dao.findById(userId)?.let { record ->
             AuthUser(
-                record.id, record.name, record.authority, record.password, record.createdAt
+                record.id, record.name, record.authority, record.password, record.enabled, record.createdAt
             )
         }
     }
@@ -34,7 +34,15 @@ class AuthUserRepositoryImpl(
     override fun findByName(name: String): AuthUser? {
         return dao.findByName(name)?.let { record ->
             AuthUser(
-                record.id, record.name, record.authority, record.password, record.createdAt
+                record.id, record.name, record.authority, record.password, record.enabled, record.createdAt
+            )
+        }
+    }
+
+    override fun findAllUser(): List<AuthUser> {
+        return dao.findAllUser().map { record ->
+            AuthUser(
+                record.id, record.name, record.authority, record.password, record.enabled, record.createdAt
             )
         }
     }
@@ -55,4 +63,5 @@ interface AuthUserDao {
     fun delete(@Param("id") userId: String)
     fun findById(@Param("id") userId: String): AuthUserRecord?
     fun findByName(@Param("name") name: String): AuthUserRecord?
+    fun findAllUser(): List<AuthUserRecord>
 }

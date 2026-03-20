@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>管理者用ページ</title>
 </head>
 <body>
 <h1>管理者用ページ</h1>
-管理者権限を持っているユーザが見れるページです。
+
+<h2>ユーザ管理</h2>
+
+<table>
+    <tr>
+        <th>ユーザ名</th>
+        <th>ロール</th>
+        <th>有効/無効</th>
+    </tr>
+    <tr th:each="user: ${users}">
+        <td th:text="${user.name}">user name</td>
+        <td th:text="${user.role}">user role</td>
+        <td th:text="${user.enable}">enabled</td>
+    </tr>
+</table>
+
 </body>
 </html>

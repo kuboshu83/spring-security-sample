@@ -5,8 +5,9 @@ import java.time.OffsetDateTime
 data class AuthUser(
     val id: String,
     val name: String,
-    val authority: String,
+    val role: String,
     val password: String,
+    val enable: Boolean,
     val createdAt: OffsetDateTime,
 )
 

@@ -14,7 +14,7 @@ class PostgreSqlUserDetailsService(
         val user = repository.findByName(username)
             ?: throw UsernameNotFoundException("ユーザが見つかりません: name=$username")
         val authorities = listOf<GrantedAuthority>(
-            SimpleGrantedAuthority(user.authority)
+            SimpleGrantedAuthority(user.role)
         )
         return User(
             user.name, user.password, authorities
