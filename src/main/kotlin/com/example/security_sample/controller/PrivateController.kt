@@ -1,6 +1,7 @@
 package com.example.security_sample.controller
 
 import com.example.security_sample.auth.AuthUserService
+import com.example.security_sample.auth.CustomUserDetails
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -18,7 +19,9 @@ class PrivateController(
         authentication: Authentication,
     ): String {
         val name = authentication.name
+        val id = (authentication.principal as CustomUserDetails).id
         model.addAttribute("name", name)
+        model.addAttribute("id", id)
         return "private/private_index"
     }
 

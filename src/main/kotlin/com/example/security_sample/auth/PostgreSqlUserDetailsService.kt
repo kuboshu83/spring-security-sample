@@ -7,6 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 
+class CustomUserDetails(
+    val id: String,
+    name: String,
+    password: String,
+    authorities: Collection<GrantedAuthority>
+) : User(name, password, authorities) {
+
+}
+
 class PostgreSqlUserDetailsService(
     private val repository: AuthUserRepository
 ) : UserDetailsService {
@@ -16,8 +25,8 @@ class PostgreSqlUserDetailsService(
         val authorities = listOf<GrantedAuthority>(
             SimpleGrantedAuthority(user.role)
         )
-        return User(
-            user.name, user.password, authorities
+        return CustomUserDetails(
+            user.id, user.name, user.password, authorities
         )
     }
 }
