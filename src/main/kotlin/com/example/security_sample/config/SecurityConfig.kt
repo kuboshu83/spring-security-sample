@@ -18,7 +18,7 @@ class SecurityConfig {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http {
-            csrf { disable() }
+            csrf { }
             authorizeHttpRequests {
                 authorize("/private/admin/**", hasAuthority("ADMIN_ROLE"))
                 authorize("/private/developer/**", hasAuthority("DEVELOPER_ROLE"))
