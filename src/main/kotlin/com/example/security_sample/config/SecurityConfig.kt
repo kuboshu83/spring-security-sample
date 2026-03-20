@@ -1,6 +1,6 @@
 package com.example.security_sample.config
 
-import com.example.security_sample.auth.PostgreSqlUserDetailsService
+import com.example.security_sample.auth.PsqlUserDetailsService
 import com.example.security_sample.auth.domain.AuthUserRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -33,7 +33,7 @@ class SecurityConfig {
 
     @Bean
     fun userDetailsService(repo: AuthUserRepository): UserDetailsService {
-        return PostgreSqlUserDetailsService(repo)
+        return PsqlUserDetailsService(repo)
     }
 
     @Bean

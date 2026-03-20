@@ -17,7 +17,7 @@ class CustomUserDetails(
 
 }
 
-class PostgreSqlUserDetailsService(
+class PsqlUserDetailsService(
     private val repository: AuthUserRepository
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
