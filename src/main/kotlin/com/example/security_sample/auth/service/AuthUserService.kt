@@ -15,20 +15,6 @@ class AuthUserService(
     private val encoder: PasswordEncoder,
 ) {
     @Transactional
-    fun createAdmin(name: String, rawPassword: String): AuthUser {
-        return createUser(name, rawPassword, AuthUserRole.ADMIN)
-    }
-
-    @Transactional
-    fun createGeneralUser(name: String, rawPassword: String): AuthUser {
-        return createUser(name, rawPassword, AuthUserRole.GENERAL)
-    }
-
-    @Transactional
-    fun createDeveloper(name: String, rawPassword: String): AuthUser {
-        return createUser(name, rawPassword, AuthUserRole.DEVELOPER)
-    }
-
     fun createUser(name: String, rawPassword: String, role: AuthUserRole): AuthUser {
         val id = UUID.randomUUID().toString()
         val encodedPassword = encoder.encode(rawPassword) ?: throw RuntimeException("パスワードのエンコード失敗")
