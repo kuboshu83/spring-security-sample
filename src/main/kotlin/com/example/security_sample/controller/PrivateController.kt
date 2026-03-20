@@ -1,6 +1,7 @@
 package com.example.security_sample.controller
 
 import com.example.security_sample.auth.AuthUserService
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,7 +13,12 @@ class PrivateController(
     private val userService: AuthUserService,
 ) {
     @GetMapping
-    fun getPrivatePage(): String {
+    fun getPrivatePage(
+        model: Model,
+        authentication: Authentication,
+    ): String {
+        val name = authentication.name
+        model.addAttribute("name", name)
         return "private/private_index"
     }
 
