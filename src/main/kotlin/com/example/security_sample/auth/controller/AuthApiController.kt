@@ -21,12 +21,8 @@ class ApiAuthController(
         @RequestBody user: NewUserDTO,
     ) {
         println("${user.name}, ${user.password}, ${user.role}")
-        val role: AuthUserRole = when (user.role) {
-            "general" -> AuthUserRole.GENERAL
-            "developer" -> AuthUserRole.DEVELOPER
-            "admin" -> AuthUserRole.ADMIN
-            else -> throw RuntimeException("不明なロール: ${user.role}")
-        }
+        val role = AuthUserRole.from(user.role)
+            ?: throw RuntimeException("不明なロール: ${user.role}")
         service.createUser(user.name, user.password, role)
     }
 }
@@ -41,12 +37,8 @@ class AuthController(
         @ModelAttribute user: NewUserDTO,
     ): String {
         println("${user.name}, ${user.password}, ${user.role}")
-        val role: AuthUserRole = when (user.role) {
-            "general" -> AuthUserRole.GENERAL
-            "developer" -> AuthUserRole.DEVELOPER
-            "admin" -> AuthUserRole.ADMIN
-            else -> throw RuntimeException("不明なロール: ${user.role}")
-        }
+        val role = AuthUserRole.from(user.role)
+            ?: throw RuntimeException("不明なロール: ${user.role}")
         service.createUser(user.name, user.password, role)
         return "redirect:/"
     }
