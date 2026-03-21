@@ -1,7 +1,9 @@
-package com.example.security_sample.controller
+package com.example.security_sample.auth.web
 
-import com.example.security_sample.auth.AuthUserService
-import com.example.security_sample.auth.Role
+import com.example.security_sample.auth.domain.AuthUserRole
+import com.example.security_sample.auth.exception.InputException
+import com.example.security_sample.auth.service.AuthUserService
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
@@ -21,12 +23,8 @@ class ApiAuthController(
         @RequestBody user: NewUserDTO,
     ) {
         println("${user.name}, ${user.password}, ${user.role}")
-        val role: Role = when (user.role) {
-            "general" -> Role.GENERAL_ROLE
-            "developer" -> Role.DEVELOPER_ROLE
-            "admin" -> Role.ADMIN_ROLE
-            else -> throw RuntimeException("不明なロール: ${user.role}")
-        }
+        val role = AuthUserRole.from(user.role)
+            ?: throw InputException.UnknownRole(user.role)
         service.createUser(user.name, user.password, role)
     }
 }
@@ -36,18 +34,19 @@ class ApiAuthController(
 class AuthController(
     private val service: AuthUserService
 ) {
+    private val logger = LoggerFactory.getLogger(AuthController::class.simpleName)
+
     @PostMapping("/new")
     fun createUser(
         @ModelAttribute user: NewUserDTO,
     ): String {
-        println("${user.name}, ${user.password}, ${user.role}")
-        val role: Role = when (user.role) {
-            "general" -> Role.GENERAL_ROLE
-            "developer" -> Role.DEVELOPER_ROLE
-            "admin" -> Role.ADMIN_ROLE
-            else -> throw RuntimeException("不明なロール: ${user.role}")
+        if (user.name.isBlank()) {
+            throw InputException.InvalidName(user.name)
         }
+        val role = AuthUserRole.from(user.role)
+            ?: throw InputException.UnknownRole(user.role)
         service.createUser(user.name, user.password, role)
+        logger.info("Create new user: name=${user.name} role=${user.role}")
         return "redirect:/"
     }
 }

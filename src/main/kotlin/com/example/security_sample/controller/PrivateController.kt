@@ -1,7 +1,7 @@
 package com.example.security_sample.controller
 
-import com.example.security_sample.auth.AuthUserService
 import com.example.security_sample.auth.CustomUserDetails
+import com.example.security_sample.auth.service.AuthUserService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

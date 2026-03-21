@@ -17,10 +17,10 @@
     </tr>
     <tr th:each="user: ${users}">
         <td th:text="${user.name}">user name</td>
-        <td th:switch="${user.role}">
-            <span th:case="ADMIN_ROLE">管理者</span>
-            <span th:case="DEVELOPER_ROLE">開発者</span>
-            <span th:case="GENERAL_ROLE">ユーザ</span>
+        <td th:switch="${user.role.code}">
+            <span th:case="ADMIN">管理者</span>
+            <span th:case="DEVELOPER">開発者</span>
+            <span th:case="GENERAL">ユーザ</span>
             <span th:case="*">不明</span>
         </td>
         <td th:switch="${user.enable}">
