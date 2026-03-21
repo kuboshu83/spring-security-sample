@@ -1,6 +1,7 @@
 package com.example.security_sample.auth.web
 
 import com.example.security_sample.auth.domain.AuthUserRole
+import com.example.security_sample.auth.exception.InputException
 import com.example.security_sample.auth.service.AuthUserService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -23,7 +24,7 @@ class ApiAuthController(
     ) {
         println("${user.name}, ${user.password}, ${user.role}")
         val role = AuthUserRole.from(user.role)
-            ?: throw RuntimeException("不明なロール: ${user.role}")
+            ?: throw InputException.UnknownRole(user.role)
         service.createUser(user.name, user.password, role)
     }
 }
@@ -39,10 +40,13 @@ class AuthController(
     fun createUser(
         @ModelAttribute user: NewUserDTO,
     ): String {
-        logger.info("Create new user: name=${user.name} role=${user.role}")
+        if (user.name.isBlank()) {
+            throw InputException.InvalidName(user.name)
+        }
         val role = AuthUserRole.from(user.role)
-            ?: throw RuntimeException("不明なロール: ${user.role}")
+            ?: throw InputException.UnknownRole(user.role)
         service.createUser(user.name, user.password, role)
+        logger.info("Create new user: name=${user.name} role=${user.role}")
         return "redirect:/"
     }
 }
