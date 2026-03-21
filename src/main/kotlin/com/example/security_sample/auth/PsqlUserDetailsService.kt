@@ -13,9 +13,7 @@ class CustomUserDetails(
     name: String,
     password: String,
     authorities: Collection<GrantedAuthority>
-) : User(name, password, authorities) {
-
-}
+) : User(name, password, authorities)
 
 class PsqlUserDetailsService(
     private val repository: AuthUserRepository
