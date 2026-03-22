@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -19,21 +18,20 @@ import org.springframework.security.web.SecurityFilterChain
 class SecurityConfig {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http {
-            csrf { }
-            authorizeHttpRequests {
-                authorize("/private/admin/**", hasAuthority("ADMIN"))
-                authorize("/private/developer/**", hasAuthority("DEVELOPER"))
-                authorize("/private/general/**", hasAuthority("GENERAL"))
-                authorize("/private/**", authenticated)
-                authorize(anyRequest, permitAll)
+        http
+            .authorizeHttpRequests { auth ->
+                auth.requestMatchers("/login").anonymous()
+                auth.requestMatchers("/logout").authenticated()
+                auth.requestMatchers("/private/admin/**").hasAuthority("ADMIN")
+                auth.requestMatchers("/private/developer/**").hasAuthority("DEVELOPER")
+                auth.requestMatchers("/private/general/**").hasAuthority("GENERAL")
+                auth.requestMatchers("/private/**").authenticated()
+                auth.anyRequest().permitAll()
             }
-            formLogin {
-                loginPage = "/login"
-                defaultSuccessUrl("/private", false)
-                permitAll()
+            .formLogin { login ->
+                login.loginPage("/login")
+                login.defaultSuccessUrl("/private", false)
             }
-        }
         return http.build()
     }
 
