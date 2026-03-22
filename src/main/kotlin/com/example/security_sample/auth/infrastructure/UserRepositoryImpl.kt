@@ -3,6 +3,7 @@ package com.example.security_sample.auth.infrastructure
 import com.example.security_sample.auth.domain.AuthUser
 import com.example.security_sample.auth.domain.AuthUserRepository
 import com.example.security_sample.auth.domain.AuthUserRole
+import com.example.security_sample.auth.domain.UserStatus
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository
@@ -15,7 +16,7 @@ class AuthUserRepositoryImpl(
     override fun save(user: AuthUser) {
         dao.create(
             AuthUserRecord(
-                user.id, user.name, user.role.code, user.password, true, user.createdAt
+                user.id, user.name, user.role.code, user.password, user.status.status, user.createdAt
             )
         )
     }
@@ -31,7 +32,7 @@ class AuthUserRepositoryImpl(
                 record.name,
                 AuthUserRole.valueOf(record.role),
                 record.password,
-                record.enabled,
+                UserStatus.valueOf(record.status),
                 record.createdAt
             )
         }
@@ -44,7 +45,7 @@ class AuthUserRepositoryImpl(
                 record.name,
                 AuthUserRole.valueOf(record.role),
                 record.password,
-                record.enabled,
+                UserStatus.valueOf(record.status),
                 record.createdAt
             )
         }
@@ -57,7 +58,7 @@ class AuthUserRepositoryImpl(
                 record.name,
                 AuthUserRole.valueOf(record.role),
                 record.password,
-                record.enabled,
+                UserStatus.valueOf(record.status),
                 record.createdAt
             )
         }
@@ -69,7 +70,7 @@ data class AuthUserRecord(
     val name: String,
     val role: String,
     val password: String,
-    val enabled: Boolean,
+    val status: String,
     val createdAt: OffsetDateTime,
 )
 
