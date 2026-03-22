@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository
 import java.time.OffsetDateTime
+import java.util.*
 
 @Repository
 class AuthUserRepositoryImpl(
@@ -35,7 +36,7 @@ class AuthUserRepositoryImpl(
 }
 
 data class UserRegistrationRecord(
-    val id: String,
+    val id: UUID,
     val name: String,
     val role: String,
     val password: String,
@@ -55,7 +56,7 @@ data class UserRegistrationRecord(
 }
 
 data class AuthUserRecord(
-    val id: String,
+    val id: UUID,
     val name: String,
     val role: String,
     val password: String,
@@ -77,8 +78,8 @@ data class AuthUserRecord(
 @Mapper
 interface AuthUserDao {
     fun create(@Param("user") user: UserRegistrationRecord)
-    fun delete(@Param("id") userId: String)
-    fun findById(@Param("id") userId: String): AuthUserRecord?
+    fun delete(@Param("id") userId: UUID)
+    fun findById(@Param("id") userId: UUID): AuthUserRecord?
     fun findByName(@Param("name") name: String): AuthUserRecord?
     fun findAllUser(): List<AuthUserRecord>
 }

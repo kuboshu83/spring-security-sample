@@ -22,11 +22,7 @@ enum class UserStatus(val status: String) {
 }
 
 @JvmInline
-value class UserId(val value: String) {
-    init {
-        require(!value.isBlank())
-    }
-}
+value class UserId(val value: UUID)
 
 @JvmInline
 value class UserName(val value: String) {
@@ -51,7 +47,7 @@ class UserRegistration private constructor(
 ) {
     companion object {
         fun createActiveUser(name: UserName, role: UserRole, password: Password): UserRegistration {
-            val id = UserId(UUID.randomUUID().toString())
+            val id = UserId(UUID.randomUUID())
             return UserRegistration(id, name, role, password, UserStatus.ACTIVE)
         }
 

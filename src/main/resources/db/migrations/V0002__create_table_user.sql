@@ -1,5 +1,5 @@
 create table auth.user (
-    id text primary key,
+    id uuid primary key,
     name text unique not null,
     role text not null,
     password text not null,
