@@ -54,6 +54,10 @@ class UserRegistration private constructor(
             val id = UserId(UUID.randomUUID().toString())
             return UserRegistration(id, name, role, password, UserStatus.ACTIVE)
         }
+
+        fun createGeneralUser(name: UserName, password: Password): UserRegistration {
+            return createActiveUser(name, UserRole.GENERAL, password)
+        }
     }
 }
 

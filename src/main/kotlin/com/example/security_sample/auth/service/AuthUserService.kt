@@ -1,6 +1,7 @@
 package com.example.security_sample.auth.service
 
 import com.example.security_sample.auth.domain.*
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,10 +12,20 @@ class AuthUserService(
     private val encoder: PasswordEncoder,
 ) {
     @Transactional
+    fun createGeneralUser(name: UserName, rawPassword: Password): AuthUser {
+        val encodedPassword = encoder.encode(rawPassword.value) ?: throw RuntimeException("パスワードのエンコード失敗")
+        val newUser = UserRegistration.createGeneralUser(name, Password(encodedPassword))
+        val userId = repo.save(newUser)
+        val user = repo.findById(userId) ?: throw java.lang.RuntimeException("ユーザが見つかりません")
+        return user
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Transactional
     fun createUser(name: UserName, rawPassword: Password, role: UserRole): AuthUser {
         val encodedPassword = encoder.encode(rawPassword.value) ?: throw RuntimeException("パスワードのエンコード失敗")
-        val authUser = UserRegistration.createActiveUser(name, role, Password(encodedPassword))
-        val userId = repo.save(authUser)
+        val newUser = UserRegistration.createActiveUser(name, role, Password(encodedPassword))
+        val userId = repo.save(newUser)
         val user = repo.findById(userId) ?: throw java.lang.RuntimeException("ユーザが見つかりません")
         return user
     }
