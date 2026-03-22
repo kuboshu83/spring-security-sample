@@ -2,7 +2,7 @@ package com.example.security_sample.auth.infrastructure
 
 import com.example.security_sample.auth.domain.AuthUser
 import com.example.security_sample.auth.domain.AuthUserRepository
-import com.example.security_sample.auth.domain.AuthUserRole
+import com.example.security_sample.auth.domain.UserRole
 import com.example.security_sample.auth.domain.UserStatus
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
@@ -30,7 +30,7 @@ class AuthUserRepositoryImpl(
             AuthUser(
                 record.id,
                 record.name,
-                AuthUserRole.valueOf(record.role),
+                UserRole.valueOf(record.role),
                 record.password,
                 UserStatus.valueOf(record.status),
                 record.createdAt
@@ -43,7 +43,7 @@ class AuthUserRepositoryImpl(
             AuthUser(
                 record.id,
                 record.name,
-                AuthUserRole.valueOf(record.role),
+                UserRole.valueOf(record.role),
                 record.password,
                 UserStatus.valueOf(record.status),
                 record.createdAt
@@ -56,7 +56,7 @@ class AuthUserRepositoryImpl(
             AuthUser(
                 record.id,
                 record.name,
-                AuthUserRole.valueOf(record.role),
+                UserRole.valueOf(record.role),
                 record.password,
                 UserStatus.valueOf(record.status),
                 record.createdAt
