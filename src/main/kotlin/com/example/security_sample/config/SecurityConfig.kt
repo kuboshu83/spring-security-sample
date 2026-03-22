@@ -28,7 +28,11 @@ class SecurityConfig {
                 authorize("/private/**", authenticated)
                 authorize(anyRequest, permitAll)
             }
-            formLogin { }
+            formLogin {
+                loginPage = "/login"
+                defaultSuccessUrl("/private", false)
+                permitAll()
+            }
         }
         return http.build()
     }
