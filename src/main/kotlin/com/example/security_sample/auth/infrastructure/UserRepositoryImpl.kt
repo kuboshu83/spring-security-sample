@@ -15,12 +15,12 @@ class AuthUserRepositoryImpl(
         return user.id
     }
 
-    override fun delete(userId: String) {
-        dao.delete(userId)
+    override fun delete(userId: UserId) {
+        dao.delete(userId.value)
     }
 
-    override fun findById(userId: String): AuthUser? {
-        return dao.findById(userId)?.let { record ->
+    override fun findById(userId: UserId): AuthUser? {
+        return dao.findById(userId.value)?.let { record ->
             AuthUser(
                 UserId(record.id),
                 UserName(record.name),
@@ -32,8 +32,8 @@ class AuthUserRepositoryImpl(
         }
     }
 
-    override fun findByName(name: String): AuthUser? {
-        return dao.findByName(name)?.let { record ->
+    override fun findByName(name: UserName): AuthUser? {
+        return dao.findByName(name.value)?.let { record ->
             AuthUser(
                 UserId(record.id),
                 UserName(record.name),

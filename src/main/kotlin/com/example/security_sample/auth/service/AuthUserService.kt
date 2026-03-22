@@ -15,17 +15,17 @@ class AuthUserService(
         val encodedPassword = encoder.encode(rawPassword.value) ?: throw RuntimeException("パスワードのエンコード失敗")
         val authUser = UserRegistration.createActiveUser(name, role, Password(encodedPassword))
         val userId = repo.save(authUser)
-        val user = repo.findById(userId.value) ?: throw java.lang.RuntimeException("ユーザが見つかりません")
+        val user = repo.findById(userId) ?: throw java.lang.RuntimeException("ユーザが見つかりません")
         return user
     }
 
-    fun deleteUser(id: String): AuthUser {
+    fun deleteUser(id: UserId): AuthUser {
         val user = repo.findById(id) ?: throw RuntimeException("ユーザが見つかりません: id=$id")
         repo.delete(id)
         return user
     }
 
-    fun findUserById(id: String): AuthUser {
+    fun findUserById(id: UserId): AuthUser {
         return repo.findById(id) ?: throw RuntimeException("ユーザが見つかりません: id=$id")
     }
 
