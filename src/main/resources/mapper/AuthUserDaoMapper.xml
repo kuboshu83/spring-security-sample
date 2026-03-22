@@ -3,9 +3,9 @@
 <mapper namespace="com.example.security_sample.auth.infrastructure.AuthUserDao">
     <insert id="create">
         insert into auth.user
-        (id, name, role, password, enabled, created_at)
+        (id, name, role, password, status)
         values
-        (#{user.id}, #{user.name}, #{user.role}, #{user.password}, #{user.enabled}, #{user.createdAt})
+        (#{user.id}, #{user.name}, #{user.role}, #{user.password}, #{user.status})
     </insert>
 
     <delete id="delete">
@@ -14,19 +14,19 @@
 
     <select id="findById" resultType="com.example.security_sample.auth.infrastructure.AuthUserRecord">
         select
-        id, name, role, password, enabled, created_at
+        id, name, role, password, status, created_at
         from auth.user where id = #{id}
     </select>
 
     <select id="findByName" resultType="com.example.security_sample.auth.infrastructure.AuthUserRecord">
         select
-        id, name, role, password, enabled, created_at
+        id, name, role, password, status, created_at
         from auth.user where name = #{name}
     </select>
 
     <select id="findAllUser" resultType="com.example.security_sample.auth.infrastructure.AuthUserRecord">
         select
-        id, name, role, password, enabled, created_at
+        id, name, role, password, status, created_at
         from auth.user
     </select>
 </mapper>

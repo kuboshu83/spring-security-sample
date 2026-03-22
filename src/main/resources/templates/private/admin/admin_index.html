@@ -23,9 +23,10 @@
             <span th:case="GENERAL">ユーザ</span>
             <span th:case="*">不明</span>
         </td>
-        <td th:switch="${user.enable}">
-            <span th:case="true">有効</span>
-            <span th:case="false">無効</span>
+        <td th:switch="${user.status.status}">
+            <span th:case="ACTIVE">有効</span>
+            <span th:case="INACTIVE">無効</span>
+            <span th:case="LOCKED">一時停止中</span>
         </td>
     </tr>
 </table>

@@ -1,6 +1,7 @@
 package com.example.security_sample.auth
 
 import com.example.security_sample.auth.domain.AuthUserRepository
+import com.example.security_sample.auth.domain.UserName
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
@@ -19,13 +20,13 @@ class PsqlUserDetailsService(
     private val repository: AuthUserRepository
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
-        val user = repository.findByName(username)
+        val user = repository.findByName(UserName(username))
             ?: throw UsernameNotFoundException("ユーザが見つかりません: name=$username")
         val authorities = listOf<GrantedAuthority>(
             SimpleGrantedAuthority(user.role.code)
         )
         return CustomUserDetails(
-            user.id, user.name, user.password, authorities
+            user.id.value, user.name.value, user.password.value, authorities
         )
     }
 }

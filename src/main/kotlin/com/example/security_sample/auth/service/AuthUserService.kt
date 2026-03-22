@@ -1,13 +1,10 @@
 package com.example.security_sample.auth.service
 
-import com.example.security_sample.auth.domain.AuthUser
-import com.example.security_sample.auth.domain.AuthUserRepository
-import com.example.security_sample.auth.domain.AuthUserRole
+import com.example.security_sample.auth.domain.*
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.OffsetDateTime
-import java.util.*
 
 @Service
 class AuthUserService(
@@ -15,21 +12,31 @@ class AuthUserService(
     private val encoder: PasswordEncoder,
 ) {
     @Transactional
-    fun createUser(name: String, rawPassword: String, role: AuthUserRole): AuthUser {
-        val id = UUID.randomUUID().toString()
-        val encodedPassword = encoder.encode(rawPassword) ?: throw RuntimeException("パスワードのエンコード失敗")
-        val authUser = AuthUser(id, name, role, encodedPassword, true, OffsetDateTime.now())
-        repo.save(authUser)
-        return authUser
+    fun createGeneralUser(name: UserName, rawPassword: Password): AuthUser {
+        val encodedPassword = encoder.encode(rawPassword.value) ?: throw RuntimeException("パスワードのエンコード失敗")
+        val newUser = UserRegistration.createGeneralUser(name, Password(encodedPassword))
+        val userId = repo.save(newUser)
+        val user = repo.findById(userId) ?: throw java.lang.RuntimeException("ユーザが見つかりません")
+        return user
     }
 
-    fun deleteUser(id: String): AuthUser {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Transactional
+    fun createUser(name: UserName, rawPassword: Password, role: UserRole): AuthUser {
+        val encodedPassword = encoder.encode(rawPassword.value) ?: throw RuntimeException("パスワードのエンコード失敗")
+        val newUser = UserRegistration.createActiveUser(name, role, Password(encodedPassword))
+        val userId = repo.save(newUser)
+        val user = repo.findById(userId) ?: throw java.lang.RuntimeException("ユーザが見つかりません")
+        return user
+    }
+
+    fun deleteUser(id: UserId): AuthUser {
         val user = repo.findById(id) ?: throw RuntimeException("ユーザが見つかりません: id=$id")
         repo.delete(id)
         return user
     }
 
-    fun findUserById(id: String): AuthUser {
+    fun findUserById(id: UserId): AuthUser {
         return repo.findById(id) ?: throw RuntimeException("ユーザが見つかりません: id=$id")
     }
 
