@@ -20,41 +20,16 @@ class AuthUserRepositoryImpl(
     }
 
     override fun findById(userId: UserId): AuthUser? {
-        return dao.findById(userId.value)?.let { record ->
-            AuthUser(
-                UserId(record.id),
-                UserName(record.name),
-                UserRole.valueOf(record.role),
-                Password(record.password),
-                UserStatus.valueOf(record.status),
-                record.createdAt
-            )
-        }
+        return dao.findById(userId.value)?.toDomain()
     }
 
     override fun findByName(name: UserName): AuthUser? {
-        return dao.findByName(name.value)?.let { record ->
-            AuthUser(
-                UserId(record.id),
-                UserName(record.name),
-                UserRole.valueOf(record.role),
-                Password(record.password),
-                UserStatus.valueOf(record.status),
-                record.createdAt
-            )
-        }
+        return dao.findByName(name.value)?.toDomain()
     }
 
     override fun findAllUser(): List<AuthUser> {
         return dao.findAllUser().map { record ->
-            AuthUser(
-                UserId(record.id),
-                UserName(record.name),
-                UserRole.valueOf(record.role),
-                Password(record.password),
-                UserStatus.valueOf(record.status),
-                record.createdAt
-            )
+            record.toDomain()
         }
     }
 }
@@ -86,7 +61,18 @@ data class AuthUserRecord(
     val password: String,
     val status: String,
     val createdAt: OffsetDateTime,
-)
+) {
+    fun toDomain(): AuthUser {
+        return AuthUser(
+            UserId(id),
+            UserName(name),
+            UserRole.valueOf(role),
+            Password(password),
+            UserStatus.valueOf(status),
+            createdAt
+        )
+    }
+}
 
 @Mapper
 interface AuthUserDao {
