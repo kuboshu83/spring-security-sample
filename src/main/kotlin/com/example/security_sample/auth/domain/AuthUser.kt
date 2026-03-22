@@ -1,6 +1,7 @@
 package com.example.security_sample.auth.domain
 
 import java.time.OffsetDateTime
+import java.util.*
 
 enum class UserRole(val code: String) {
     ADMIN("ADMIN"),
@@ -38,6 +39,21 @@ value class UserName(val value: String) {
 value class Password(val value: String) {
     init {
         require(!value.isBlank())
+    }
+}
+
+class UserRegistration private constructor(
+    val id: UserId,
+    val name: UserName,
+    val role: UserRole,
+    val password: Password,
+    val status: UserStatus,
+) {
+    companion object {
+        fun createActiveUser(name: UserName, role: UserRole, password: Password): UserRegistration {
+            val id = UserId(UUID.randomUUID().toString())
+            return UserRegistration(id, name, role, password, UserStatus.ACTIVE)
+        }
     }
 }
 

@@ -10,17 +10,9 @@ import java.time.OffsetDateTime
 class AuthUserRepositoryImpl(
     private val dao: AuthUserDao
 ) : AuthUserRepository {
-    override fun save(user: AuthUser) {
-        dao.create(
-            AuthUserRecord(
-                user.id.value,
-                user.name.value,
-                user.role.code,
-                user.password.value,
-                user.status.status,
-                user.createdAt
-            )
-        )
+    override fun save(user: UserRegistration): UserId {
+        dao.create(UserRegistrationRecord.from(user))
+        return user.id
     }
 
     override fun delete(userId: String) {
@@ -67,6 +59,26 @@ class AuthUserRepositoryImpl(
     }
 }
 
+data class UserRegistrationRecord(
+    val id: String,
+    val name: String,
+    val role: String,
+    val password: String,
+    val status: String,
+) {
+    companion object {
+        fun from(user: UserRegistration): UserRegistrationRecord {
+            return UserRegistrationRecord(
+                user.id.value,
+                user.name.value,
+                user.role.code,
+                user.password.value,
+                user.status.status
+            )
+        }
+    }
+}
+
 data class AuthUserRecord(
     val id: String,
     val name: String,
@@ -78,7 +90,7 @@ data class AuthUserRecord(
 
 @Mapper
 interface AuthUserDao {
-    fun create(@Param("user") user: AuthUserRecord)
+    fun create(@Param("user") user: UserRegistrationRecord)
     fun delete(@Param("id") userId: String)
     fun findById(@Param("id") userId: String): AuthUserRecord?
     fun findByName(@Param("name") name: String): AuthUserRecord?

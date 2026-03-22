@@ -4,8 +4,6 @@ import com.example.security_sample.auth.domain.*
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.OffsetDateTime
-import java.util.*
 
 @Service
 class AuthUserService(
@@ -14,11 +12,11 @@ class AuthUserService(
 ) {
     @Transactional
     fun createUser(name: UserName, rawPassword: Password, role: UserRole): AuthUser {
-        val id = UserId(UUID.randomUUID().toString())
         val encodedPassword = encoder.encode(rawPassword.value) ?: throw RuntimeException("パスワードのエンコード失敗")
-        val authUser = AuthUser(id, name, role, Password(encodedPassword), UserStatus.ACTIVE, OffsetDateTime.now())
-        repo.save(authUser)
-        return authUser
+        val authUser = UserRegistration.createActiveUser(name, role, Password(encodedPassword))
+        val userId = repo.save(authUser)
+        val user = repo.findById(userId.value) ?: throw java.lang.RuntimeException("ユーザが見つかりません")
+        return user
     }
 
     fun deleteUser(id: String): AuthUser {

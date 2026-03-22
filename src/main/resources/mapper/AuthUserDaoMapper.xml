@@ -3,9 +3,9 @@
 <mapper namespace="com.example.security_sample.auth.infrastructure.AuthUserDao">
     <insert id="create">
         insert into auth.user
-        (id, name, role, password, status, created_at)
+        (id, name, role, password, status)
         values
-        (#{user.id}, #{user.name}, #{user.role}, #{user.password}, #{user.status}, #{user.createdAt})
+        (#{user.id}, #{user.name}, #{user.role}, #{user.password}, #{user.status})
     </insert>
 
     <delete id="delete">
