@@ -55,7 +55,7 @@ class UserRegistration private constructor(
     }
 }
 
-data class AuthUser(
+class AuthUser(
     val id: UserId,
     val name: UserName,
     val role: UserRole,
