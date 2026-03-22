@@ -1,9 +1,6 @@
 package com.example.security_sample.auth.infrastructure
 
-import com.example.security_sample.auth.domain.AuthUser
-import com.example.security_sample.auth.domain.AuthUserRepository
-import com.example.security_sample.auth.domain.UserRole
-import com.example.security_sample.auth.domain.UserStatus
+import com.example.security_sample.auth.domain.*
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository
@@ -16,7 +13,12 @@ class AuthUserRepositoryImpl(
     override fun save(user: AuthUser) {
         dao.create(
             AuthUserRecord(
-                user.id, user.name, user.role.code, user.password, user.status.status, user.createdAt
+                user.id.value,
+                user.name.value,
+                user.role.code,
+                user.password.value,
+                user.status.status,
+                user.createdAt
             )
         )
     }
@@ -28,10 +30,10 @@ class AuthUserRepositoryImpl(
     override fun findById(userId: String): AuthUser? {
         return dao.findById(userId)?.let { record ->
             AuthUser(
-                record.id,
-                record.name,
+                UserId(record.id),
+                UserName(record.name),
                 UserRole.valueOf(record.role),
-                record.password,
+                Password(record.password),
                 UserStatus.valueOf(record.status),
                 record.createdAt
             )
@@ -41,10 +43,10 @@ class AuthUserRepositoryImpl(
     override fun findByName(name: String): AuthUser? {
         return dao.findByName(name)?.let { record ->
             AuthUser(
-                record.id,
-                record.name,
+                UserId(record.id),
+                UserName(record.name),
                 UserRole.valueOf(record.role),
-                record.password,
+                Password(record.password),
                 UserStatus.valueOf(record.status),
                 record.createdAt
             )
@@ -54,10 +56,10 @@ class AuthUserRepositoryImpl(
     override fun findAllUser(): List<AuthUser> {
         return dao.findAllUser().map { record ->
             AuthUser(
-                record.id,
-                record.name,
+                UserId(record.id),
+                UserName(record.name),
                 UserRole.valueOf(record.role),
-                record.password,
+                Password(record.password),
                 UserStatus.valueOf(record.status),
                 record.createdAt
             )

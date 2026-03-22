@@ -25,7 +25,7 @@ class PsqlUserDetailsService(
             SimpleGrantedAuthority(user.role.code)
         )
         return CustomUserDetails(
-            user.id, user.name, user.password, authorities
+            user.id.value, user.name.value, user.password.value, authorities
         )
     }
 }

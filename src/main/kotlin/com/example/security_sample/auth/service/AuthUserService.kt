@@ -1,9 +1,6 @@
 package com.example.security_sample.auth.service
 
-import com.example.security_sample.auth.domain.AuthUser
-import com.example.security_sample.auth.domain.AuthUserRepository
-import com.example.security_sample.auth.domain.UserRole
-import com.example.security_sample.auth.domain.UserStatus
+import com.example.security_sample.auth.domain.*
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -16,10 +13,10 @@ class AuthUserService(
     private val encoder: PasswordEncoder,
 ) {
     @Transactional
-    fun createUser(name: String, rawPassword: String, role: UserRole): AuthUser {
-        val id = UUID.randomUUID().toString()
-        val encodedPassword = encoder.encode(rawPassword) ?: throw RuntimeException("パスワードのエンコード失敗")
-        val authUser = AuthUser(id, name, role, encodedPassword, UserStatus.ACTIVE, OffsetDateTime.now())
+    fun createUser(name: UserName, rawPassword: Password, role: UserRole): AuthUser {
+        val id = UserId(UUID.randomUUID().toString())
+        val encodedPassword = encoder.encode(rawPassword.value) ?: throw RuntimeException("パスワードのエンコード失敗")
+        val authUser = AuthUser(id, name, role, Password(encodedPassword), UserStatus.ACTIVE, OffsetDateTime.now())
         repo.save(authUser)
         return authUser
     }

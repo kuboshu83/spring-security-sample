@@ -20,11 +20,32 @@ enum class UserStatus(val status: String) {
     LOCKED("LOCKED");
 }
 
+@JvmInline
+value class UserId(val value: String) {
+    init {
+        require(!value.isBlank())
+    }
+}
+
+@JvmInline
+value class UserName(val value: String) {
+    init {
+        require(!value.isBlank())
+    }
+}
+
+@JvmInline
+value class Password(val value: String) {
+    init {
+        require(!value.isBlank())
+    }
+}
+
 data class AuthUser(
-    val id: String,
-    val name: String,
+    val id: UserId,
+    val name: UserName,
     val role: UserRole,
-    val password: String,
+    val password: Password,
     val status: UserStatus,
     val createdAt: OffsetDateTime,
 )
