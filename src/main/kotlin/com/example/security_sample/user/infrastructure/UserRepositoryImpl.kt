@@ -12,8 +12,9 @@ class AuthUserRepositoryImpl(
     private val dao: AuthUserDao
 ) : AuthUserRepository {
     override fun save(user: UserRegistration): UserId {
-        dao.create(UserRegistrationRecord.from(user))
-        return user.id
+        val uuidStr = dao.create(UserRegistrationRecord.from(user))
+        val uuid = UUID.fromString(uuidStr)
+        return UserId(uuid)
     }
 
     override fun delete(userId: UserId) {
@@ -36,7 +37,6 @@ class AuthUserRepositoryImpl(
 }
 
 data class UserRegistrationRecord(
-    val id: UUID,
     val name: String,
     val role: String,
     val password: String,
@@ -45,7 +45,6 @@ data class UserRegistrationRecord(
     companion object {
         fun from(user: UserRegistration): UserRegistrationRecord {
             return UserRegistrationRecord(
-                user.id.value,
                 user.name.value,
                 user.role.code,
                 user.password.value,
@@ -77,7 +76,7 @@ data class AuthUserRecord(
 
 @Mapper
 interface AuthUserDao {
-    fun create(@Param("user") user: UserRegistrationRecord)
+    fun create(@Param("user") user: UserRegistrationRecord): String
     fun delete(@Param("id") userId: UUID)
     fun findById(@Param("id") userId: UUID): AuthUserRecord?
     fun findByName(@Param("name") name: String): AuthUserRecord?

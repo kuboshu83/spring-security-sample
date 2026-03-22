@@ -39,7 +39,6 @@ value class Password(val value: String) {
 }
 
 class UserRegistration private constructor(
-    val id: UserId,
     val name: UserName,
     val role: UserRole,
     val password: Password,
@@ -47,8 +46,7 @@ class UserRegistration private constructor(
 ) {
     companion object {
         fun createActiveUser(name: UserName, role: UserRole, password: Password): UserRegistration {
-            val id = UserId(UUID.randomUUID())
-            return UserRegistration(id, name, role, password, UserStatus.ACTIVE)
+            return UserRegistration(name, role, password, UserStatus.ACTIVE)
         }
 
         fun createGeneralUser(name: UserName, password: Password): UserRegistration {

@@ -22,12 +22,10 @@ class AuthUserService(
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
-    fun createUser(name: UserName, rawPassword: Password, role: UserRole): AuthUser {
+    fun createUser(name: UserName, rawPassword: Password, role: UserRole): UserId {
         val encodedPassword = encoder.encode(rawPassword.value) ?: throw RuntimeException("パスワードのエンコード失敗")
         val newUser = UserRegistration.createActiveUser(name, role, Password(encodedPassword))
-        val userId = repo.save(newUser)
-        val user = repo.findById(userId) ?: throw java.lang.RuntimeException("ユーザが見つかりません")
-        return user
+        return repo.save(newUser)
     }
 
     fun deleteUser(id: UserId): AuthUser {

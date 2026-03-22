@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.security_sample.user.infrastructure.AuthUserDao">
-    <insert id="create">
+    <select id="create" resultType="String">
         insert into auth.user
-        (id, name, role, password, status)
+        (name, role, password, status)
         values
-        (#{user.id}, #{user.name}, #{user.role}, #{user.password}, #{user.status})
-    </insert>
+        (#{user.name}, #{user.role}, #{user.password}, #{user.status})
+        returning id
+    </select>
 
     <delete id="delete">
         delete from auth.user where id = #{id}

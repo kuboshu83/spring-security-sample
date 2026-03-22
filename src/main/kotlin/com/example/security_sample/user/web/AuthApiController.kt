@@ -54,8 +54,8 @@ class AuthController(
             ?: throw InputException.UnknownRole(user.role)
         val name = UserName(user.name)
         val password = Password(user.password)
-        service.createUser(name, password, role)
-        logger.info("Create new user: name=${user.name} role=${user.role}")
+        val id = service.createUser(name, password, role)
+        logger.info("Create new user: name=${user.name} role=${user.role} id=${id.value}")
         return "redirect:/"
     }
 }
