@@ -1,7 +1,7 @@
-package com.example.security_sample.auth
+package com.example.security_sample.user
 
-import com.example.security_sample.auth.domain.AuthUserRepository
-import com.example.security_sample.auth.domain.UserName
+import com.example.security_sample.user.domain.AuthUserRepository
+import com.example.security_sample.user.domain.UserName
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
@@ -26,7 +26,7 @@ class PsqlUserDetailsService(
             SimpleGrantedAuthority(user.role.code)
         )
         return CustomUserDetails(
-            user.id.value, user.name.value, user.password.value, authorities
+            user.id.value.toString(), user.name.value, user.password.value, authorities
         )
     }
 }

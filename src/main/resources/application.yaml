@@ -18,6 +18,6 @@ logging:
   level:
     root: info
     org.springframework.security: debug
-  structured:
-    format:
-      console: ecs
+#  structured:
+#    format:
+#      console: ecs

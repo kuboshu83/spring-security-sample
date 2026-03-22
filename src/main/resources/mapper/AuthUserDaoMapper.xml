@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.security_sample.auth.infrastructure.AuthUserDao">
-    <insert id="create">
+<mapper namespace="com.example.security_sample.user.infrastructure.AuthUserDao">
+    <select id="create" resultType="String">
         insert into auth.user
-        (id, name, role, password, status)
+        (name, role, password, status)
         values
-        (#{user.id}, #{user.name}, #{user.role}, #{user.password}, #{user.status})
-    </insert>
+        (#{user.name}, #{user.role}, #{user.password}, #{user.status})
+        returning id
+    </select>
 
     <delete id="delete">
         delete from auth.user where id = #{id}
     </delete>
 
-    <select id="findById" resultType="com.example.security_sample.auth.infrastructure.AuthUserRecord">
+    <select id="findById" resultType="com.example.security_sample.user.infrastructure.AuthUserRecord">
         select
         id, name, role, password, status, created_at
         from auth.user where id = #{id}
     </select>
 
-    <select id="findByName" resultType="com.example.security_sample.auth.infrastructure.AuthUserRecord">
+    <select id="findByName" resultType="com.example.security_sample.user.infrastructure.AuthUserRecord">
         select
         id, name, role, password, status, created_at
         from auth.user where name = #{name}
     </select>
 
-    <select id="findAllUser" resultType="com.example.security_sample.auth.infrastructure.AuthUserRecord">
+    <select id="findAllUser" resultType="com.example.security_sample.user.infrastructure.AuthUserRecord">
         select
         id, name, role, password, status, created_at
         from auth.user

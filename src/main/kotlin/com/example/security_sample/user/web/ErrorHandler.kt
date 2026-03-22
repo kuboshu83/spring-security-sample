@@ -1,6 +1,6 @@
-package com.example.security_sample.auth.web
+package com.example.security_sample.user.web
 
-import com.example.security_sample.auth.exception.InputException
+import com.example.security_sample.user.exception.InputException
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
