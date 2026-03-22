@@ -1,10 +1,10 @@
-package com.example.security_sample.auth.web
+package com.example.security_sample.user.web
 
-import com.example.security_sample.auth.domain.Password
-import com.example.security_sample.auth.domain.UserName
-import com.example.security_sample.auth.domain.UserRole
-import com.example.security_sample.auth.exception.InputException
-import com.example.security_sample.auth.service.AuthUserService
+import com.example.security_sample.user.domain.Password
+import com.example.security_sample.user.domain.UserName
+import com.example.security_sample.user.domain.UserRole
+import com.example.security_sample.user.exception.InputException
+import com.example.security_sample.user.service.AuthUserService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*

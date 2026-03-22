@@ -1,7 +1,7 @@
 package com.example.security_sample.config
 
-import com.example.security_sample.auth.PsqlUserDetailsService
-import com.example.security_sample.auth.domain.AuthUserRepository
+import com.example.security_sample.user.PsqlUserDetailsService
+import com.example.security_sample.user.domain.AuthUserRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity

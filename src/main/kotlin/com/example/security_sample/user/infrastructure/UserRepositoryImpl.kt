@@ -1,6 +1,6 @@
-package com.example.security_sample.auth.infrastructure
+package com.example.security_sample.user.infrastructure
 
-import com.example.security_sample.auth.domain.*
+import com.example.security_sample.user.domain.*
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository

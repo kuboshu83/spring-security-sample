@@ -1,4 +1,4 @@
-package com.example.security_sample.auth.exception
+package com.example.security_sample.user.exception
 
 sealed class AuthException(message: String, cause: Throwable?) : RuntimeException(message, cause)
 

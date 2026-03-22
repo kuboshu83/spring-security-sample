@@ -1,4 +1,4 @@
-package com.example.security_sample.auth.domain
+package com.example.security_sample.user.domain
 
 import java.time.OffsetDateTime
 import java.util.*

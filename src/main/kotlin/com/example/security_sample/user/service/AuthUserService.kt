@@ -1,6 +1,6 @@
-package com.example.security_sample.auth.service
+package com.example.security_sample.user.service
 
-import com.example.security_sample.auth.domain.*
+import com.example.security_sample.user.domain.*
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
